@@ -42,6 +42,7 @@ argument to copy them to your Public folder **and** your clipboard.
 
 ```
 > public foobar.txt
+> public barbaz.txt foobaz.txt
 ```
 
 ## Contributing
