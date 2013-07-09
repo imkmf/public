@@ -11,8 +11,11 @@ class Public
     get_id(file)
   end
 
+  def self.config_name
+    CONFIG
+  end
+
   def self.setup
-    config_name = CONFIG
     unless File.file?(config_name)
       not_configured
     else
@@ -40,10 +43,14 @@ class Public
   end
 
   def self.process(file)
-    if File.file?(file)
-      move_file(file)
+    unless File.file?(config_name)
+      not_configured
     else
-      puts "That file doesn't exist!"
+      if File.file?(file)
+        move_file(file)
+      else
+        puts "That file doesn't exist!"
+      end
     end
   end
 
@@ -54,7 +61,7 @@ class Public
   end
 
   def self.copy_link(file)
-    get_id(File.read(CONFIG))
+    get_id(File.read(config_name))
     if @user_id == "CHANGE_ME"
       change_me
     else
