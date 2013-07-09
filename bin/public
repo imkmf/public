@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require 'public'
+
+if ARGV
+  ARGV.each do |arg|
+    Public.process(arg)
+  end
+else
+  Public.config
+end
