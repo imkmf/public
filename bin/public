@@ -2,10 +2,11 @@
 
 require 'public'
 
-if ARGV
-  ARGV.each do |arg|
+if ARGV.empty?
+  Public.config
+else
+  ARGV.each.with_index do |arg|
     Public.process(arg)
   end
-else
-  Public.config
 end
+

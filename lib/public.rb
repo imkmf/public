@@ -11,15 +11,9 @@ class Public
     get_id(file)
   end
 
-  def self.config_name
-    CONFIG
-  end
-
   def self.setup
-    unless File.file?(config_name)
-      not_configured
-    else
-      file = File.read(config_name)
+    if File.file?(CONFIG)
+      file = File.read(CONFIG)
       get_id(file)
       if @user_id == "CHANGE_ME"
         change_me
@@ -27,23 +21,25 @@ class Public
         puts "Already configured with a Dropbox ID of #{ @user_id }"
         puts "Try copying a file with 'public <FILE>'"
       end
+    else
+      not_configured
     end
     file
   end
 
   def self.not_configured
-    FileUtils.cp "#{ GEM_DIRECTORY }/.public_gem", config_name
-    file = File.read(config_name)
+    FileUtils.cp "#{ GEM_DIRECTORY }/.public_gem", CONFIG
+    file = File.read(CONFIG)
     change_me
     file
   end
 
   def self.get_id(file)
-    @user_id = file.split(": ").last.chomp
+    @user_id = file.split(": ").last.chomp unless file.nil?
   end
 
   def self.process(file)
-    unless File.file?(config_name)
+    unless File.file?(CONFIG)
       not_configured
     else
       if File.file?(file)
@@ -61,7 +57,7 @@ class Public
   end
 
   def self.copy_link(file)
-    get_id(File.read(config_name))
+    get_id(File.read(CONFIG))
     if @user_id == "CHANGE_ME"
       change_me
     else
