@@ -51,9 +51,10 @@ class Public
   end
 
   def self.move_file(file)
-    dropbox_location = "#{ Dir.home }/Dropbox/Public/"
+    without_spaces = file.gsub(" ", "_")
+    dropbox_location = Dir.home + "/Dropbox/Public/" + without_spaces
     FileUtils.cp file, dropbox_location
-    copy_link(file)
+    copy_link(without_spaces)
   end
 
   def self.copy_link(file)
